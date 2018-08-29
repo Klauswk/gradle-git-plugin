@@ -1,0 +1,30 @@
+// https://www.thedroidsonroids.com/blog/how-to-create-gradle-plugin-in-kotlin
+// https://docs.gradle.org/current/userguide/custom_plugins.html#custom_plugins
+
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    //id 'com.github.klauswk'
+}
+
+version = '0.0.1-SNAPSHOT'
+
+gradlePlugin {
+    plugins {
+        simplePlugin {
+            id = 'com.github.klauswk'
+            implementationClass = 'com.github.klauswk.GitPlugin'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.0.2.201807311906-r'
+    compileOnly gradleApi()
+    testCompileOnly gradleTestKit()
+}
+ 
