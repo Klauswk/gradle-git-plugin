@@ -1,5 +1,7 @@
 // https://www.thedroidsonroids.com/blog/how-to-create-gradle-plugin-in-kotlin
 // https://docs.gradle.org/current/userguide/custom_plugins.html#custom_plugins
+// http://www.vogella.com/tutorials/JGit/article.html
+// https://www.eclipse.org/jgit/
 
 plugins {
     id 'groovy'
@@ -17,6 +19,18 @@ gradlePlugin {
         }
     }
 }
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from {
+        exclude "**/*.RSA","**/*.DSA"
+        configurations.compile.filter {
+        !it.getAbsoluteFile().getAbsolutePath().contains('groovy') && !it.getAbsoluteFile().getAbsolutePath().contains('gradle-api-4.3.jar') && !it.getAbsoluteFile().getAbsolutePath().contains('gradle-installation-beacon-4.3.jar')
+    }.collect {
+        it.isDirectory() ? it : zipTree(it)
+    } }
+    with jar
+}
+
 
 repositories {
     jcenter()

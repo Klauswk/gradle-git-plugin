@@ -7,6 +7,14 @@ class GitPlugin implements Plugin<Project> {
 
     @Override
 	void apply(Project project) {
-        project.tasks.create('hello',Greeting)
+        def extension = project.extensions.create('gitConfigExtension', GitConfigExtension, project)
+
+        project.tasks.create('branch',CurrentBranchTask) {
+            gitFolder = extension.gitFolder
+        }
+
+        project.tasks.create('commit',CurrentHashTask) {
+            gitFolder = extension.gitFolder
+        }
     }
 }
